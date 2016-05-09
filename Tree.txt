@@ -1,0 +1,42 @@
+﻿#include <iostream>
+#include <string>
+#include <vector>
+
+namespace ryu
+{ 
+    template <class T, int N = 0>
+    class Tree
+    {
+        private:
+            struct tree_node
+            {
+                T packet;
+                std::vector<tree_node*> children; //= std::vector<tree_node*>(N);
+            };
+            tree_node *head;
+            
+        public:
+            Tree(T packet)
+            {
+                head = new tree_node();
+                head->packet = packet;
+                head->children = std::vector<tree_node*>(N);
+            }
+            T getData()
+            {
+                return head->packet;
+            }
+            int getSize()
+            {
+                return head->children.size();   
+            }
+    };
+}
+
+int main()
+{
+    ryu::Tree<std::string, 2> tree("Hello");
+    std::cout << tree.getData() << std::endl;
+    std::cout << tree.getSize() << std::endl;
+    return 0;
+}
