@@ -1,0 +1,18 @@
+want a directory structure of includes, but use it sparingly
+Header only libraries
+.../Math
+.../DataStructures
+.../Algorithms
+.../etc
+These can be fluid but try not to make it excessively so/give updates on git
+in a standard place
+may need to hard theorycraft any library I'd need ever
+How to make this easily transportable to schoolwork
+/test do work and coding in here
+/submit dir for final submission
+/.bashrc aliasing probably
+g++ -std=c++{vrsn#} -I$HOME/lib/C++/{vrsn#} in make files for g++{vrsn#}
+each header should have multiple versions with identical unit tests
+Try to not conflict or multiple namespaces will ensue, which is hard to 
+remember
+

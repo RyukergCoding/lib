@@ -1,0 +1,6 @@
+﻿
+C++
+
+argument - function(arg1, arg2, etc)
+macro - preprocessing copy and paste
+template - generalized class
