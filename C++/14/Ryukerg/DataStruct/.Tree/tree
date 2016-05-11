@@ -6,46 +6,116 @@
 namespace ryu
 {
     /*
-    still to be implemented
-    Parent, Child, Sibling, Ancestor, Descendant, Subtree,
-    height, outputPacket, outputTree, empty, insert, Search,
-    traversal, destructor
+    decide if we want control over the nodes or just trees with those nodes as roots
+    probably just want a current pointer and have different operations
+    for current position and root position
     */
     /*
     Generalization for trees
     */
     template <class T, int N = 0>
-    class Tree
+    class tree
     {
         private:
-            struct tree_node
+            class tree_node
             {
-                T packet;
-                std::array<tree_node*, N> children;
+                public:
+                    T packet; 
+                    std::array<tree_node*, N> children; 
+                    //tree_node * parent; 
+                    tree_node(T ipacket)
+                    {
+                        packet = ipacket;
+                        //std::cout << "Allocated " << sizeof(tree_node *) * N + sizeof(T) << " bytes of memory to ryu::tree::tree_node" << std::endl;
+                    }
+                    ~tree_node()
+                    {
+                        for(auto &ptr: children)
+                            delete ptr;
+                        //std::cout << "Freed " << sizeof(tree_node *) * N << " dynamic bytes of memory from ryu::tree::tree_node" << std::endl;
+                        //std::cout << "Freed " << sizeof(T) << " static bytes of memory from ryu::tree::tree_node" << std::endl;
+                    }
             };
-            tree_node *head;
+            tree_node *root; //size 8 dynamic
+            tree_node *current; //size 8 dynamic
             
         public:
-            Tree(T packet)
+            /*
+            //Default Constructor
+            tree()
             {
-                head = new tree_node();
-                head->packet = packet;
+                root = NULL;
+                std::cout << "Allocated " << sizeof(tree_node *) << " bytes of memory to ryu::tree" << std::endl;
+            }
+            */
+            //Alternate Constructor
+            tree(T packet)
+            {
+                root = new tree_node(packet);
+                current = root;
+                //std::cout << "Allocated " << sizeof(tree_node *) * 2 << " static bytes of memory to ryu::tree" << std::endl;
+            }
+            //Other Alternate Constructors?
+            //Copy Constructor
+            //tree(const tree &obj)
+            //Destructor
+            ~tree()
+            {
+                delete root;
+                //std::cout << "Freed " << sizeof(tree_node *) * 2 << " static bytes of memory from ryu::tree" << std::endl;
             }
             T getData()
             {
-                return head->packet;
+                return root->packet;
             }
             int getSize()
             {
-                return head->children.size();   
+                return root->children.size();   
             }
+            void insert(T packet)
+            {
+                for(auto &ptr : current->children)
+                {
+                    if(!ptr)
+                    {
+                        ptr = new tree_node(packet);
+                        break;
+                    }
+                }
+            }
+            //parent();
+            //child();
+            //sibling();
+            //Ancestor();
+            //Descendant();
+            //Subtree();
+            //outputCurrent();
+            //outputTree();
+            //empty();
+            //search();
+            //numChildren();
+            //~Tree();
+            //preorder();
+            //inorder();
+            //postorder();
+            //levelorder();
+            //leaf/externalnode();
+            //internalnode();
+            //degree();
+            //edge()
+            //path()
+            //level()
+            //height of node
+            //height of tree
+            //Depth
+            //Forest
     };
     
     /*
     Specialization for general trees
     */
     template<class T>
-    class Tree <T, 0>
+    class tree <T, 0>
     {
         private:
             struct tree_node
@@ -53,29 +123,35 @@ namespace ryu
                 T packet;
                 std::vector<tree_node*> children;
             };
-            tree_node *head;
+            tree_node *root;
             
         public:
-            Tree(T packet)
+            tree(T packet)
             {
-                head = new tree_node();
-                head->packet = packet;   
+                root = new tree_node();
+                root->packet = packet;   
             }
             T getData()
             {
-                return head->packet;
+                return root->packet;
             }
             int getSize()
             {
-                return head->children.size();   
+                return root->children.size();   
             }
     };
 }
 
 int main()
 {
-    ryu::Tree<std::string> tree("Hello");
+    ryu::tree<int, 2> tree(8);
+    std::vector<int> a;
     std::cout << tree.getData() << std::endl;
     std::cout << tree.getSize() << std::endl;
+    tree.insert(2);
+    tree.insert(5);
+    std::cout << sizeof(std::vector<int>) << std::endl;
+    std::cout << a.capacity() << std::endl;
+    
     return 0;
 }
