@@ -15,4 +15,7 @@ g++ -std=c++{vrsn#} -I$HOME/lib/C++/{vrsn#} in make files for g++{vrsn#}
 each header should have multiple versions with identical unit tests
 Try to not conflict or multiple namespaces will ensue, which is hard to 
 remember
+Point of these libraries is to provide standard interfaces to 
+the most efficient implementation at the time.
+
 
