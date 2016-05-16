@@ -1,0 +1,57 @@
+﻿#include <iostream>
+
+namespace ryu
+{
+    /*
+    Implementation styles - 
+    lists of children :
+    dynamic
+    access to # of children directly  tree -> root -> nodes
+    need N pointers per node
+    
+    static
+    needs static room and stuff
+    probably more trouble than worth
+    
+    leftmost-child right-sibling :
+    dynamic
+    straightforward iteration
+    2 pointers per node
+    
+    static
+    
+    
+    heap :
+    dynamic array of T
+    
+    static
+    array of T
+    
+    parent :
+    faster reverse iteration
+    
+    methods -
+    
+    insert(); //new node
+    modify(); //edit node
+    parent();
+    child();
+    sibling();
+    Ancestor();
+    Descendant();
+    outputCurrent();
+    empty(); curr == null
+    search(); search below curr
+    numChildren(); //degree
+    leaf/externalnode(); //check if children are null
+    internalnode(); //check if non-null child
+    height of node; //dist from lowest leaf null = -1 leaf = 0
+    Depth; //dist from root root = 0
+    */
+}
+
+int main()
+{
+    
+    return 0;
+}

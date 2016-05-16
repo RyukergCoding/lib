@@ -1,276 +1,85 @@
 ﻿#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-#include <iterator>
-#include <exception>
 
 namespace ryu
 {
     /*
-    Implementation styles - 
-    lists of children :
-    dynamic
-    access to # of children directly  tree -> root -> nodes
-    need N pointers per node
-    
-    static
-    needs static room and stuff
-    probably more trouble than worth
-    
-    leftmost-child right-sibling :
-    dynamic
-    straightforward iteration
-    2 pointers per node
-    
-    static
-    
-    
-    heap :
-    dynamic array of T
-    
-    static
-    array of T
-    
-    parent :
-    faster reverse iteration
-    
-    methods -
-    
-    insert(); //new node
-    modify(); //edit node
-    parent();
-    child();
-    sibling();
-    Ancestor();
-    Descendant();
-    outputCurrent();
-    empty(); curr == null
-    search(); search below curr
-    numChildren(); //degree
-    leaf/externalnode(); //check if children are null
-    internalnode(); //check if non-null child
-    height of node; //dist from lowest leaf null = -1 leaf = 0
-    Depth; //dist from root root = 0
-    */
-    /*
-    ITERATOR
-    
-    typedef in iterator itself
-    
-        class iterator
-        {
-            public:
-                typedef iterator self_type;
-                typedef T value_type;
-                typedef T& reference;
-                typedef T* pointer;
-                typedef std::forward_iterator_tag iterator_category;
-                typedef int difference_type;
-                iterator(pointer ptr) : ptr_(ptr) { }
-                self_type operator++() { self_type i = *this; ptr_++; return i; }
-                self_type operator++(int junk) { ptr_++; return *this; }
-                reference operator*() { return *ptr_; }
-                pointer operator->() { return ptr_; }
-                bool operator==(const self_type& rhs) { return ptr_ == rhs.ptr_; }
-                bool operator!=(const self_type& rhs) { return ptr_ != rhs.ptr_; }
-            private:
-                pointer ptr_;
-        };
-        
-        iterator begin()
-        {
-            return iterator(data_);
-        }
-
-        iterator end()
-        {
-            return iterator(data_ + size_);
-        }
-    
-    use template arguments
-    struct std::iterator_traits<youriterator> 
-    {        
-        typedef ???? difference_type; //almost always ptrdif_t
-        typedef ???? value_type; //almost always T
-        typedef ???? reference; //almost always T& or const T&
-        typedef ???? pointer; //almost always T* or const T*
-        typedef ???? iterator_category;  //usually std::forward_iterator_tag or similar
-    };
-    
-    inherit from other iterator
-    typedef std::iterator iterator;
-    typedef std::const_iterator const_iterator;
-    */
-    /*
     REMEMBER FORESTS
     TREE FORWARD_TREE?
-    
-    typedef <impl> node; ?
-    tpyedef <impl> iterator; ?
-    
-    methods -
-    
-    tree(); //
-    tree(stuff); //packets, nodes, trees packet = tree(packet) node = tree
-    tree(tree); //copy
-    ~tree(); //destruct
-    root(); ?
-    outputTree();
-    empty(); root == null
-    search(); forward depth/breadth
-    height of tree; //dist from lowest leaf
-    preorder(); //depth
-    inorder();
-    postorder();
-    levelorder(); //breadth
     */
     
     /*
-    Generalization for trees
+    Base Class for Generalized Tree
     */
-    template <class T, int N = 0>
+    template <class T, int D = 0, class N = ryu::tree::i_node::impl<T>>
     class tree
     {
+        typedef N node;
+        typedef typename node::iterator iterator;
+        typedef typename node::iterator::pre iterator::pre;
+        typedef typename node::iterator::pst iterator::pst;
+        typedef typename node::iterator::in iterator::in;
+        typedef typename node::iterator::lvl iterator::lvl;
+        
         private:
-            class node
-            {
-                public:
-                    T packet; 
-                    std::array<node*, N> children; 
-                    node * parent;
-                    node(T packetPar)
-                    {
-                        packet = packetPar;
-                        std::cout << "Allocated " << sizeof(node *) * (N + 1) + sizeof(T) << " bytes of memory to ryu::tree::node" << std::endl;
-                    }
-                    ~node()
-                    {
-                        for(auto &ptr: children)
-                            delete ptr;
-                        std::cout << "Freed " << sizeof(node *) * (N + 1) + sizeof(T) << " bytes of memory from ryu::tree::node" << std::endl;
-                    }
-            };
             node * root;
             
         public:
-            class iterator
-            {
-                private:
-                    node * curr;
-                    
-                public:
-                    iterator(node * ptr)
-                    {
-                        curr = ptr;
-                        std::cout << "Allocated " << sizeof(node *) << " bytes of memory to ryu::tree::iterator" << std::endl;
-                    }
-                    ~iterator()
-                    {
-                        std::cout << "Freed " << sizeof(node *) << " bytes of memory from ryu::tree::iterator" << std::endl;   
-                    }
-                    const node& operator*()
-                    {
-                        return *curr; 
-                    }
-            };
-            class const_iterator
-            {
-                
-            };
-            iterator begin()
-            {
-                return iterator(root);   
-            }
-            iterator end()
-            {
-                return iterator(NULL);
-            }
-            /*
             //Default Constructor
             tree()
             {
                 root = NULL;
-                std::cout << "Allocated " << sizeof(tree_node *) << " bytes of memory to ryu::tree" << std::endl;
+                std::cout << "Allocated " << sizeof(node *) << " bytes of memory to ryu::tree" << std::endl;
             }
-            */
             //Alternate Constructor
             tree(T packet)
             {
-                std::cout << "Allocated " << sizeof(node *) * 2 << " bytes of memory to ryu::tree" << std::endl;
+                std::cout << "Allocated " << sizeof(node *) << " bytes of memory to ryu::tree" << std::endl;
                 root = new node(packet);    
             }
-            //Other Alternate Constructors?
+            //Alternate Constructor
+            tree(node * ptr)
+            {
+                root = ptr;
+            }
             //Copy Constructor
             //tree(const tree &obj)
             //Destructor
             ~tree()
             {
                 delete root;
-                std::cout << "Freed " << sizeof(node *) * 2 << " bytes of memory from ryu::tree" << std::endl;
+                std::cout << "Freed " << sizeof(node *) << " bytes of memory from ryu::tree" << std::endl;
             }
-            T getData()
+            bool isEmpty()
             {
-                return root->packet;
+                return root;
             }
-            int getSize()
+            //begin();
+            //end();
+            //int height()
+            //{
+            //    return height(root);
+            //}
+            //int size()
+            //{
+            //    return
+            //}
+            node * getRoot()
             {
-                return root->children.size();   
+                return root;   
             }
-            //this is ok to throw ONLY if there is a simple check you can do. Some bool function like hasRoom
-            /*void insert(T packet)
-            {
-                bool flag = true;
-                for(auto &ptr : current->children)
-                {
-                    if(!ptr)
-                    {
-                        ptr = new node(packet);
-                        flag = false;
-                        break;
-                    }
-                }
-                if(flag)
-                    throw std::out_of_range("Tree already has " + std::to_string(N) +  " children");
-            }*/
-
-    };
-    
-    /*
-    Specialization for general trees
-    */
-    template<class T>
-    class tree <T, 0>
-    {
-        private:
-            struct tree_node
-            {
-                T packet;
-                std::vector<tree_node*> children;
-            };
-            tree_node *root;
+            //void output();
+            //node * search();
+            //void insert();
+            //void modify();
+            //void delete();
             
-        public:
-            tree(T packet)
-            {
-                root = new tree_node();
-                root->packet = packet;   
-            }
-            T getData()
-            {
-                return root->packet;
-            }
-            int getSize()
-            {
-                return root->children.size();   
-            }
     };
 }
 
 int main()
 {
-    ryu::tree<int, 4> tree(8);
-    ryu::tree<int, 4>::iterator ptr = tree.begin();
-    std::cout << (*ptr).packet << std::endl;
+    ryu::tree<int, 4> tree();
+    //ryu::tree<int, 4>::iterator ptr = tree.begin();
+    //std::cout << (*ptr).packet << std::endl;
     return 0;
 }
