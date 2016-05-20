@@ -10,7 +10,7 @@ namespace ryu
     /*
     Base Class for Generalized Tree
     */
-    template <class T, int D = 0, class N = ryu::tree::i_node::impl<T>>
+    template <typename T, int D = 0, typename N = ryu::tree::i_node::impl<T>>
     class tree
     {
         typedef N node;
