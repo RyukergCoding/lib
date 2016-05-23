@@ -1,1 +1,0 @@
-auto array = std::make_unique<int[]>(size);

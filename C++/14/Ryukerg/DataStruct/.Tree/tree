@@ -1,84 +1,87 @@
 ﻿#include <iostream>
 
 namespace ryu
-{
+{  
     /*
-    REMEMBER FORESTS
-    TREE FORWARD_TREE?
+    Generalized Tree
     */
-    
-    /*
-    Base Class for Generalized Tree
-    */
-    template <typename T, int D = 0, typename N = ryu::tree::i_node::impl<T>>
+    template <typename T, typename N, int D = 0>
     class tree
     {
         typedef N node;
-        typedef typename node::iterator iterator;
-        typedef typename node::iterator::pre iterator::pre;
-        typedef typename node::iterator::pst iterator::pst;
-        typedef typename node::iterator::in iterator::in;
-        typedef typename node::iterator::lvl iterator::lvl;
-        
-        private:
-            node * root;
+        //typedef typename node::iterator iterator;
+        //typedef typename node::iterator::pre iterator::pre;
+        //typedef typename node::iterator::pst iterator::pst;
+        //typedef typename node::iterator::in iterator::in;
+        //typedef typename node::iterator::lvl iterator::lvl;
             
         public:
             //Default Constructor
-            tree()
-            {
-                root = NULL;
-                std::cout << "Allocated " << sizeof(node *) << " bytes of memory to ryu::tree" << std::endl;
-            }
+            tree();
             //Alternate Constructor
-            tree(T packet)
-            {
-                std::cout << "Allocated " << sizeof(node *) << " bytes of memory to ryu::tree" << std::endl;
-                root = new node(packet);    
-            }
-            //Alternate Constructor
-            tree(node * ptr)
-            {
-                root = ptr;
-            }
+            tree(T packet);
             //Copy Constructor
-            //tree(const tree &obj)
+            //tree(const tree &obj);
             //Destructor
-            ~tree()
-            {
-                delete root;
-                std::cout << "Freed " << sizeof(node *) << " bytes of memory from ryu::tree" << std::endl;
-            }
-            bool isEmpty()
-            {
-                return root;
-            }
+            ~tree();
+            bool isEmpty();
             //begin();
             //end();
-            //int height()
-            //{
-            //    return height(root);
-            //}
-            //int size()
-            //{
-            //    return
-            //}
-            node * getRoot()
-            {
-                return root;   
-            }
+            //int height();
+            //int size();
+            //node * getRoot();
             //void output();
             //node * search();
             //void insert();
             //void modify();
             //void delete();
-            
+        private:
+            node * root;
     };
+    
+    template <typename T, typename N>
+    using binary_tree = tree<T, N, 2>;
+    //class binary_tree : tree<T, N, 2> {}
+    
+    template <typename T, typename N>
+    using ternary_tree = tree<T, N, 3>;
+    
+    template <typename T, typename N>
+    using octary_tree = tree<T, N, 8>;
+}
+
+template <typename T, typename N, int D>
+inline ryu::tree<T, N, D>::tree()
+{
+    root = nullptr;
+    std::cout << "Allocated " << sizeof(node *) << " bytes of memory to ryu::tree" << std::endl;
+}
+
+template <typename T, typename N, int D>
+inline ryu::tree<T, N, D>::tree(T packet)
+{
+    root = new node(packet);
+    std::cout << "Allocated " << sizeof(node *) << " bytes of memory to ryu::tree" << std::endl;
+}
+
+template <typename T, typename N, int D>
+inline ryu::tree<T, N, D>::~tree()
+{
+    delete root;
+    std::cout << "Freed " << sizeof(node *) << " bytes of memory from ryu::tree" << std::endl;
+}
+
+template <typename T, typename N, int D>
+inline bool ryu::tree<T, N, D>::isEmpty()
+{
+    return !root;
 }
 
 int main()
 {
-    ryu::tree<int, 4> tree();
+    ryu::tree<int, int, 4> tree = ryu::tree<int, int, 4>();
+    ryu::binary_tree<int, int> btree = ryu::binary_tree<int, int>(7);
+    std::cout << std::boolalpha << btree.isEmpty() << std::endl;
     //ryu::tree<int, 4>::iterator ptr = tree.begin();
     //std::cout << (*ptr).packet << std::endl;
     return 0;

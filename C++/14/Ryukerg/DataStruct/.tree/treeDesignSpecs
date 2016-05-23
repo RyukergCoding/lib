@@ -1,0 +1,26 @@
+﻿1. A tree is a node-based container. If nonempty, every node has exactly one 
+parent, except for one node. This node is called the _root node_. 
+2. Every node has a finite, non-negative number of children. A node's 
+children is the same as the set of nodes which have that node as a parent. 
+Corollary: There is exactly one simple path between any two different nodes 
+(a simple path is a path that has no repeated vertices). 
+Corollary: A node's parent lies on the path between it and the root node. 
+Definitions: 
+1. If any node in tree T have at most K children, then T is a _K-ary tree_. 
+2. A K-ary tree is _full_ if every node has either 0 or K children. 
+3. The _distance_ between two nodes, A and B, is the number of edges in the 
+path that connects A and B. 
+4. The _height_ of tree T is equal to the maximum distance from the root 
+node to any other node. 
+5. The _degree_ of a node is the number of children, plus the number of 
+parents. Since every node (except the root) has exactly one parent, the 
+degree of a non-root node is the number of children plus 1. 
+6. A node is a _leaf_ node if it has no children. 
+7. An _ordered tree_ is a tree in which the position of the nodes, and the 
+order of a node's children, is significant. 
+
+http://tree.phi-sci.com/tree.pdf
+
+http://svn.boost.org/svn/boost/sandbox/SOC/2006/tree/
+
+https://stlab.adobe.com/classadobe_1_1forest.html
