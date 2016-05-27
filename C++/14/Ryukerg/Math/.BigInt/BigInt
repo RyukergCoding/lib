@@ -1,0 +1,22 @@
+﻿#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+/*
+BigInt Class
+*/
+class BigInt
+{
+    
+};
+
+int main()
+{
+    double param, result;
+    int n;
+
+    param = 8.056825482467456456;
+    result = frexp(param, &n);
+    std::cout << std::setprecision(64) << param << " = " << result << " * 2^" << n << std::endl;
+    return 0; 
+}

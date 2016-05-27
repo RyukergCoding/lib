@@ -1,0 +1,19 @@
+﻿#include <iostream>
+
+namespace ryu
+{  
+    /*
+    Generalized matrix
+    */
+    template <typename T, int D = 0, typename N = ryu::tree::i_node::impl<T>>
+    class matrix
+    {
+
+    };
+}
+
+int main()
+{
+    ryu::matrix<> mtrx = ryu::matrix<>();
+    return 0;
+}

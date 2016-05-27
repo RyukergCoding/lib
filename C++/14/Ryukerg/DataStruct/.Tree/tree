@@ -1,15 +1,16 @@
 ﻿#include <iostream>
+#include <vector>
 
 namespace ryu
 {  
     /*
     Generalized Tree
     */
-    template <typename T, typename N, int D = 0>
+    template <typename T, typename Node, int D = 0>
     class tree
     {
-        typedef N node;
-        //typedef typename node::iterator iterator;
+        typedef Node node;
+        typedef typename node::iterator iterator;
         //typedef typename node::iterator::pre iterator::pre;
         //typedef typename node::iterator::pst iterator::pst;
         //typedef typename node::iterator::in iterator::in;
@@ -79,9 +80,9 @@ inline bool ryu::tree<T, N, D>::isEmpty()
 
 int main()
 {
-    ryu::tree<int, int, 4> tree = ryu::tree<int, int, 4>();
-    ryu::binary_tree<int, int> btree = ryu::binary_tree<int, int>(7);
-    std::cout << std::boolalpha << btree.isEmpty() << std::endl;
+    ryu::tree<int, std::vector<int>, 4> tree = ryu::tree<int, std::vector<int>, 4>();
+    //ryu::binary_tree<int, int> btree = ryu::binary_tree<int, int>(7);
+    //std::cout << std::boolalpha << btree.isEmpty() << std::endl;
     //ryu::tree<int, 4>::iterator ptr = tree.begin();
     //std::cout << (*ptr).packet << std::endl;
     return 0;
